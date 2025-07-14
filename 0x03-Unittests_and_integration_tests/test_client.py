@@ -65,11 +65,9 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        """Start patcher for requests.get before running tests"""
+        """Setup patcher for requests.get before tests"""
         cls.get_patcher = patch("requests.get")
         mock_get = cls.get_patcher.start()
-
-        # Setup side effects for requests.get().json()
         mock_get.side_effect = [
             unittest.mock.Mock(**{"json.return_value": cls.org_payload}),
             unittest.mock.Mock(**{"json.return_value": cls.repos_payload}),
