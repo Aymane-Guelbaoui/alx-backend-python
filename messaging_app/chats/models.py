@@ -53,3 +53,4 @@ class ConversationSerializer(serializers.ModelSerializer):
         if not last_message:
             raise serializers.ValidationError("No messages found in this conversation.")
         return last_message.message_body
+import uuid, password, primary_key created_at
