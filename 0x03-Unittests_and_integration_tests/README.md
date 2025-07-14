@@ -2,12 +2,11 @@
 
 ## Description
 
-This project focuses on writing unit tests and integration tests in Python using `unittest`.
+This project demonstrates writing unit and integration tests in Python using the `unittest` module. Key concepts include:
 
-You will learn:
-
-- The difference between unit and integration tests
-- How to use `unittest.mock` to isolate functionality
-- How to parameterize tests using `parameterized`
-- How to test memoized methods
-- How to mock properties and external API calls
+- Unit tests vs integration tests
+- Mocking external calls using `unittest.mock`
+- Parameterized testing with `parameterized`
+- Memoization testing
+- Patch decorators and context managers
+- Using fixtures for integration tests
