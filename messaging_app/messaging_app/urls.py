@@ -19,3 +19,4 @@ urlpatterns = [
     path('', include(router.urls)),
     path('', include(convo_router.urls)),
 ]
+api-auth
