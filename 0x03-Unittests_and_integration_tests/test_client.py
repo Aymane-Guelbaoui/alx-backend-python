@@ -65,7 +65,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        """Setup patcher for requests.get before tests"""
+        """Start patcher for requests.get before tests"""
         cls.get_patcher = patch("requests.get")
         mock_get = cls.get_patcher.start()
         mock_get.side_effect = [
