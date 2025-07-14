@@ -2,75 +2,82 @@
 """
 Models for the chats app of messaging_app project.
 
-Defines:
-- User: Custom user model extending Django's AbstractUser with extra fields.
-- Conversation: Tracks users involved in a conversation.
-- Message: Contains sender, conversation, content, and timestamp.
+Includes:
+- User model extending AbstractUser with custom UUID primary key and additional fields.
+- Conversation model tracking participants.
+- Message model with sender, conversation, message_body, and sent_at timestamp.
 """
 
+import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
     """
-    Custom User model extending Django's AbstractUser.
+    Custom User model extending AbstractUser.
 
-    Added 'display_name' field for enhanced user representation.
+    Uses UUID as primary key and adds phone_number.
     """
-    display_name = models.CharField(
-        max_length=50,
-        blank=True,
-        null=True,
-        help_text="Optional display name for the user."
+    user_id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
     )
+    email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=20, blank=True)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
     def __str__(self):
-        return self.display_name or self.username
+        return self.email
 
 
 class Conversation(models.Model):
     """
-    Model representing a conversation involving multiple users.
+    Conversation model with UUID primary key and participants.
     """
-    users = models.ManyToManyField(
+    conversation_id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
+    participants = models.ManyToManyField(
         User,
         related_name='conversations',
-        help_text="Users participating in this conversation."
+        help_text="Users participating in this conversation"
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        help_text="Timestamp when the conversation was created."
-    )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        usernames = ', '.join(user.username for user in self.users.all())
-        return f"Conversation ({self.id}) between: {usernames}"
+        participants = ', '.join([user.email for user in self.participants.all()])
+        return f"Conversation {self.conversation_id} with participants: {participants}"
 
 
 class Message(models.Model):
     """
-    Model representing a message sent by a user in a conversation.
+    Message model containing sender, conversation, message_body, and sent_at timestamp.
     """
+    message_id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
     conversation = models.ForeignKey(
         Conversation,
         on_delete=models.CASCADE,
-        related_name='messages',
-        help_text="Conversation this message belongs to."
+        related_name='messages'
     )
     sender = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='sent_messages',
-        help_text="User who sent the message."
+        related_name='sent_messages'
     )
-    content = models.TextField(
-        help_text="Content of the message."
-    )
-    timestamp = models.DateTimeField(
-        auto_now_add=True,
-        help_text="Timestamp when the message was sent."
-    )
+    message_body = models.TextField()
+    sent_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Message ({self.id}) from {self.sender} at {self.timestamp}"
+        return f"Message {self.message_id} from {self.sender.email} at {self.sent_at}"
