@@ -1,13 +1,21 @@
 #!/usr/bin/env python3
-"""messaging_app URL Configuration
-
-The `urlpatterns` list routes URLs to views.
+"""
+URLs routing for chats app using NestedDefaultRouter.
 """
 
-from django.contrib import admin
 from django.urls import path, include
+from rest_framework_nested.routers import DefaultRouter, NestedDefaultRouter
+from .views import ConversationViewSet, MessageViewSet
+
+# Primary router for conversations
+router = DefaultRouter()
+router.register(r'conversations', ConversationViewSet, basename='conversation')
+
+# Nested router for messages under a conversation
+convo_router = NestedDefaultRouter(router, r'conversations', lookup='conversation')
+convo_router.register(r'messages', MessageViewSet, basename='conversation-messages')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('chats.urls')),  # Your chats app API routes
+    path('', include(router.urls)),
+    path('', include(convo_router.urls)),
 ]
