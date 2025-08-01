@@ -1,0 +1,5 @@
+Watching for file changes with StatReloader
+"POST /api/token/ HTTP/1.1" 200 582
+C:\Users\PCHP\Documents\alx-backend-python\Django-Middleware-0x03\messaging_app\settings.py changed, reloading.
+Watching for file changes with StatReloader
+"POST /api/token/ HTTP/1.1" 200 582
