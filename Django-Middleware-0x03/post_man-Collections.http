@@ -1,0 +1,25 @@
+
+### 
+POST http://127.0.0.1:8000/api/token/
+Content-Type: application/json
+
+{
+  "email": "name@example.com",
+  "password": "test"
+}
+
+### Get list of users (to find user_id)
+GET http://127.0.0.1:8000/api/users/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUzNDU0NzE4LCJpYXQiOjE3NTM0NTQ0MTgsImp0aSI6IjA4OTRjOTdiMjJhZjQzNGY5YjliY2M3MTg1M2Q1MDFkIiwidXNlcl9pZCI6IjEwMzBmMGJmLTRjMWUtNGYyNC05Mzc0LWFmZGIwNzRlYTE2ZiJ9.wQmBSUcFp5xLaB_uRIIxISCXC1LIRG3Qa-au8ltRzvE
+
+
+### Create a conversation
+POST http://127.0.0.1:8000/api/conversations/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUzMzg4ODIyLCJpYXQiOjE3NTMzODg1MjIsImp0aSI6ImQzYmU1M2U5MDYxODRiMjU5ZTdmOGI1MGExZGZiNzFlIiwidXNlcl9pZCI6IjEwMzBmMGJmLTRjMWUtNGYyNC05Mzc0LWFmZGIwNzRlYTE2ZiJ9.xVJ2Q7h6LaPs8bkncGK_D7PHo_1eKmiTXMwRdGLPbU8
+
+{
+  "participant_ids": ["0559084a-2fea-4024-9f0a-d929a323143a", "1030f0bf-4c1e-4f24-9374-afdb074ea16f"]
+}
+
+
