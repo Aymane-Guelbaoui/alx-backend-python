@@ -1,0 +1,5 @@
+containers:
+  - name: messaging-app
+    image: your-dockerhub-username/messaging_app:2.0
+    ports:
+      - containerPort: 8000
