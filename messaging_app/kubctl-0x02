@@ -1,0 +1,14 @@
+#!/bin/bash
+# Blue-Green deployment switch script
+
+echo "🔵 Deploying BLUE version..."
+kubectl apply -f blue_deployment.yaml
+
+echo "🟢 Deploying GREEN version..."
+kubectl apply -f green_deployment.yaml
+
+echo "📊 Switching service to GREEN..."
+kubectl patch service messaging-app-service -p '{"spec":{"selector":{"app":"messaging-app-green"}}}'
+
+echo "📜 Checking logs for GREEN pods..."
+kubectl logs -l app=messaging-app-green
