@@ -1,0 +1,2 @@
+kubectl apply -f ingress.yaml
+minikube addons enable ingress
