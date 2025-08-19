@@ -1,0 +1,11 @@
+#!/bin/bash
+# Script to start a local Kubernetes cluster using Minikube
+
+echo "🚀 Starting Minikube cluster..."
+minikube start --driver=docker
+
+echo "✅ Checking cluster info..."
+kubectl cluster-info
+
+echo "📦 Listing pods..."
+kubectl get pods -A
