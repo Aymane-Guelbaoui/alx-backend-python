@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-creds') // set in Jenkins
+        GITHUB_CREDENTIALS = credentials('github-creds')         // set in Jenkins
+        DOCKER_IMAGE = "your-dockerhub-username/messaging_app"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    credentialsId: "${GITHUB_CREDENTIALS}",
+                    url: 'https://github.com/your-username/alx-backend-python.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'pip install -r messaging_app/requirements.txt'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'pytest --maxfail=1 --disable-warnings -q --junitxml=report.xml'
+            }
+            post {
+                always {
+                    junit 'report.xml'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $DOCKER_IMAGE:latest -f messaging_app/Dockerfile .'
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                sh 'echo $DOCKER_HUB_CREDENTIALS_PSW | docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin'
+                sh 'docker push $DOCKER_IMAGE:latest'
+            }
+        }
+    }
+}
